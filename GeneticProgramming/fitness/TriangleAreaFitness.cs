@@ -2,10 +2,10 @@ using System.Text;
 
 namespace GeneticProgramming
 {
-    public class TriangleAreaFitness : IFitness
+    public class TriangleAreaFitness : IFitness // Fitness class for calculating the area of a triangle
     {
         public int PassingScore { get; set; }
-        private Dictionary<List<int>, int> testCases = new Dictionary<List<int>, int>()
+        private Dictionary<List<int>, int> testCases = new Dictionary<List<int>, int>() // Keys are the input values, values are the expected output
             {
                 { new List<int> { 2, 3 }, 3 },
                 { new List<int> { 4, 5 }, 10 },
