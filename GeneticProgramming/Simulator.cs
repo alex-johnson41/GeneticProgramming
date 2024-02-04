@@ -52,10 +52,10 @@ namespace GeneticProgramming
 
         private void ScorePopulation()
         {
-            foreach(Genome genome in Population)
+            Parallel.ForEach(Population, genome =>
             {
                 genome.Score = Fitness.CalculateScore(genome);
-            };
+            });
         }
 
         private void SortPopulation()
