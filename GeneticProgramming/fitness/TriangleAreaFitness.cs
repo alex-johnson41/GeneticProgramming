@@ -4,7 +4,7 @@ namespace GeneticProgramming
 {
     public class TriangleAreaFitness : IFitness // Fitness class for calculating the area of a triangle
     {
-        public int PassingScore { get; set; }
+        public float PassingScore { get; set; }
         private Dictionary<List<int>, int> testCases = new Dictionary<List<int>, int>() // Keys are the input values, values are the expected output
             {
                 { new List<int> { 2, 3 }, 3 },
@@ -17,7 +17,7 @@ namespace GeneticProgramming
 
         public TriangleAreaFitness()
         {
-            PassingScore = 0; // Lower scores are better
+            PassingScore = 0f; // Lower scores are better
         }
 
         // Score is calculated by the follwing formula:
