@@ -3,6 +3,8 @@
 
 Exploring computer generated software using genetic evolution techniques. This project will generate Joy programs using a genetic programming simulator written in C#. 
 
+See the ProfileData folder for data from runs throughout development. Load data into Speedscope (https://www.speedscope.app/)
+
 ## General Program Flow
 The user creates a fitness function for the desired program that it wants generated. This would include example inputs and expected outputs to be compared and scored against the generated programs. 
 
