@@ -27,7 +27,7 @@ namespace GeneticProgramming
         {
             List<string> newProgram = new List<string>(genome.Program);
             int index = Random.Next(newProgram.Count);
-            newProgram[index] = genome.RandomJoyKeywordOrInt();
+            newProgram[index] = JoyUtils.RandomJoyKeywordOrInt();
             return new Genome(newProgram);
         }
 

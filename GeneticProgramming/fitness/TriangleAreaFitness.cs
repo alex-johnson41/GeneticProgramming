@@ -24,10 +24,10 @@ namespace GeneticProgramming
         // sum(abs(expected - actual) for each test case)
         public float CalculateScore(Genome genome)
         {
-            string programString = CreateProgramString(genome.ProgramToString());
+            string programString = JoyUtils.FormatProgram(genome.ProgramToString(), testCases);
             try
             {
-                string output = FitnessUtils.RunJoy(programString);
+                string output = JoyUtils.RunJoy(programString);
                 List<float> results = output.Split(Environment.NewLine)
                                             .Where(s => !string.IsNullOrEmpty(s))
                                             .Select(float.Parse)
@@ -43,17 +43,6 @@ namespace GeneticProgramming
             {
                 return -1;
             }
-        }
-
-        private string CreateProgramString(string program)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            foreach (var testCase in testCases)
-            {
-                stringBuilder.Append($"{testCase.Key[0]} {testCase.Key[1]} {program}"); // Append the input values to the start of the program
-            }
-            return stringBuilder.ToString();
         }
     }
 }

@@ -13,12 +13,12 @@ namespace GeneticProgramming
         {
             PopulationSize = populationSize;
             MaxProgramLength = maxProgramLength;
-            Population = [];
+            Population = new List<Genome> {};
             Fitness = fitness;
             Mutator = mutator;
         }
 
-        public Genome Run(){
+        public Genome Run(int? stopGeneration){
             Logger.Log("Beginning simulation");
             Population = CreateInitialPopulation();
             Logger.Log("Initial population created");
@@ -27,6 +27,10 @@ namespace GeneticProgramming
                 if (Population[0].Score == Fitness.PassingScore){
                     Logger.Log("Solution found in generation: " + GenerationCount);
                     Logger.Log("Solution: " + Population[0].ProgramToString());
+                    return Population[0];
+                }
+                if (GenerationCount == stopGeneration)
+                {
                     return Population[0];
                 }
             }
@@ -54,8 +58,12 @@ namespace GeneticProgramming
         {
             Parallel.ForEach(Population, genome =>
             {
-                genome.Score = Fitness.CalculateScore(genome);
+               genome.Score = Fitness.CalculateScore(genome);
             });
+            // foreach (Genome g in Population)
+            // {
+            //     g.Score = Fitness.CalculateScore(g);
+            // }
         }
 
         private void SortPopulation()
