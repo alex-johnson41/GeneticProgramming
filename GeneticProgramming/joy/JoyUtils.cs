@@ -33,6 +33,7 @@ namespace GeneticProgramming
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var testCase in testCases)
             {
+                stringBuilder.Append("[] unstack ");
                 foreach (var input in testCase.Key)
                 {
                     stringBuilder.Append($"{input} ");
