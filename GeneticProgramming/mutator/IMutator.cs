@@ -2,6 +2,7 @@ namespace GeneticProgramming
 {
     public interface IMutator
     {
-        List<Genome> MutatePopulation(List<Genome> population, int populationSize);
+        List<IGenome> CreateInitialPopulation(int populationSize, int maxProgramLength);
+        List<IGenome> MutatePopulation(List<IGenome> population, int populationSize, int maxProgramLength);
     }
 }

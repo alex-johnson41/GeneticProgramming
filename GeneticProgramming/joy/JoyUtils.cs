@@ -15,9 +15,7 @@ namespace GeneticProgramming
             ProcessStartInfo start = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
-                //Arguments = "-c \"./joy/joy " + joyFilePath + "\"",
-                //Arguments = "-c \"pwd\"",
-                Arguments = "-c \"" + GetProjectDirectory() + "/joy/joy " + joyFilePath + "\"",
+                Arguments = "-c \"" + GetProjectDirectory() + "/joy/joy_original " + joyFilePath + "\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
             };
@@ -27,8 +25,6 @@ namespace GeneticProgramming
                 results = reader.ReadToEnd();
             }
             File.Delete(joyFilePath);
-            if (results.Contains("run time error:") || results.Contains("expected") || results == "")
-                throw new FormatException("Program failed to run");
             return results;
         }
 
@@ -46,7 +42,7 @@ namespace GeneticProgramming
             return stringBuilder.ToString();
         }
 
-        static string GetProjectDirectory()
+        private static string GetProjectDirectory()
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
@@ -60,35 +56,65 @@ namespace GeneticProgramming
         //Generates a random Joy program
         public static List<string> RandomJoyProgram(int maxProgramLength)
         {
-            string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-            List<string> program = new List<string>();
             Random random = new Random();
-            for (int i = 0; i < random.Next(1, maxProgramLength + 1); i++) //Random length up to maxProgramLength
+            List<string> program;
+            while (true)
             {
-                program.Add(RandomJoyKeywordOrInt());
+                program = new List<string>();
+                for (int i = 0; i <= random.Next(1, maxProgramLength + 1); i++) //Random length up to maxProgramLength
+                {
+                    program.Add(RandomJoyKeywordOrInt());
+                }
+                program.Add(RandomJoyKeywordOrInt(0)); //Ensure last element is a keyword, not number
+                if (!SyntaxErrors(program))
+                    break;
             }
             return program;
         }
 
-        public static string RandomJoyKeywordOrInt()
+        public static string RandomJoyKeywordOrInt(float numberRate = 0.3f)
         {
             string[] joyKeywords = {
-                "+", "-", "*", "/", "%", "**", "neg", "dup", "swap",
-                "pop", "clear", "[", "]", "map", "concat", "rollup",
+                "+", "-", "*", "/", "pow", "neg", "dup", "swap",
+                "[", "]", "map", "concat", "rollup",
                 "rolldown", "rollupd"
             };
             string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             Random random = new Random();
-            double randomNumber = random.NextDouble(); //TODO: Make this a parameter that gets passed in (numberRate)
-            if (randomNumber <= 0.3) // 30% chance of adding a number
-            {
-                int numberIndex = random.Next(0, zeroToNine.Length);
-                return zeroToNine[numberIndex];
-            }
-            else // 70% chance of adding a joy keyword
-            {
+            double randomNumber = random.NextDouble(); 
+            if (randomNumber <= numberRate) 
+                return zeroToNine[random.Next(0, zeroToNine.Length)];
+            else
                 return joyKeywords[random.Next(0, joyKeywords.Length)];
+        }
+
+        // Returns true if the program has unmatched brackets or the last token is a number
+        // (When the last token is a number, no output is produced as the last action was pushing to the stack)
+        public static bool SyntaxErrors(List<string> program)
+        {
+            int bracketCount = 0;
+            foreach (string token in program)
+            {
+                if (token == "[")
+                    bracketCount++;
+                else if (token == "]")
+                    bracketCount--;
+                if (bracketCount < 0)
+                    return true;
             }
+            if (int.TryParse(program.Last(), out _))
+                return true;
+            return !(bracketCount == 0);
+        }
+
+        public static string FormatPopulation(List<IGenome> population, Dictionary<List<int>, int> testCases)
+        {
+            StringBuilder bigProgram = new StringBuilder(population.Count);
+            foreach (IGenome genome in population)
+            {
+                bigProgram.Append(FormatProgram(genome.ProgramToString(), testCases));
+            }
+            return bigProgram.ToString();
         }
     }
 }

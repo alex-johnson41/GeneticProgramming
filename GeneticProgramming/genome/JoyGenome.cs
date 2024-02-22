@@ -1,17 +1,17 @@
 namespace GeneticProgramming
 {
-    public class Genome
+    public class JoyGenome : IGenome
     {
         public List<string> Program { get; private set; } //Program to be executed
-        public float Score = -1;                            //Fitness score of the program
+        public float Score {get; set;} = -1f;             //Fitness score of the program
 
         //Constructor used when creating a random genome
-        public Genome(int maxProgramLength){
+        public JoyGenome(int maxProgramLength){
             Program = JoyUtils.RandomJoyProgram(maxProgramLength);
         }
 
         //Constructor used when using a mutated genome
-        public Genome(List<string> program){
+        public JoyGenome(List<string> program){
             Program = program;
         }   
 

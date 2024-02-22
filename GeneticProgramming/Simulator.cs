@@ -1,8 +1,10 @@
+using System.Text;
+
 namespace GeneticProgramming
 {
     public class Simulator
     {
-        public List<Genome> Population {get; private set;} //All genomes in current generation
+        public List<IGenome> Population {get; private set;} //All genomes in current generation
         private int PopulationSize; //Number of genomes in each generation 
         private int MaxProgramLength; //Maximum length of a genome
         private IFitness Fitness; //Fitness function used to score genomes
@@ -13,14 +15,14 @@ namespace GeneticProgramming
         {
             PopulationSize = populationSize;
             MaxProgramLength = maxProgramLength;
-            Population = new List<Genome> {};
+            Population = new List<IGenome> {};
             Fitness = fitness;
             Mutator = mutator;
         }
 
-        public Genome Run(int? stopGeneration){
+        public IGenome Run(int? stopGeneration){
             Logger.Log("Beginning simulation");
-            Population = CreateInitialPopulation();
+            Population = Mutator.CreateInitialPopulation(PopulationSize, MaxProgramLength);
             Logger.Log("Initial population created");
             while (true){
                 RunGeneration();
@@ -41,29 +43,16 @@ namespace GeneticProgramming
             SortPopulation();
             GenerationCount++;
             Logger.Log("Generation: " + GenerationCount + "  " + "Best score: " + Population[0].Score + " Best program: " + Population[0].ProgramToString());
-            Population = Mutator.MutatePopulation(Population, PopulationSize);
-        }
-
-        private List<Genome> CreateInitialPopulation()
-        {
-            List<Genome> population = new List<Genome>();
-            for (int i = 0; i < PopulationSize; i++)
-            {
-                population.Add(new Genome(MaxProgramLength));
-            }
-            return population;
+            Population = Mutator.MutatePopulation(Population, PopulationSize, MaxProgramLength);
         }
 
         private void ScorePopulation()
         {
-            Parallel.ForEach(Population, genome =>
+            List<float> scores = Fitness.CalculatePopulationScores(Population, MaxProgramLength);
+            for (int i = 0; i < Population.Count; i++)
             {
-               genome.Score = Fitness.CalculateScore(genome);
-            });
-            // foreach (Genome g in Population)
-            // {
-            //     g.Score = Fitness.CalculateScore(g);
-            // }
+                Population[i].Score = scores[i];
+            }
         }
 
         private void SortPopulation()

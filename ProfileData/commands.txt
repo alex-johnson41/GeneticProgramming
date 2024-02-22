@@ -1,0 +1,2 @@
+Profiling command: dotnet-trace collect --format Speedscope  -- GeneticProgramming
+    Run it in GeneticProgramming/GeneticProgramming/bin/Debug/net7.0
