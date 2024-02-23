@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace GeneticProgramming
 {
     public class Simulator
@@ -58,7 +56,15 @@ namespace GeneticProgramming
         private void SortPopulation()
         {
             Population.RemoveAll(genome => genome.Score < 0); // Remove all genes that didn't run
-            Population.Sort((a, b) => a.Score.CompareTo(b.Score));
+            Population.Sort((a, b) =>
+            {
+                // Sort by score, then by length of program in ties
+                int scoreComparison = a.Score.CompareTo(b.Score);
+                if (scoreComparison != 0)
+                    return scoreComparison;
+                else
+                    return a.ProgramToString().Length.CompareTo(b.ProgramToString().Length);
+            });
         }
     }
 }   
