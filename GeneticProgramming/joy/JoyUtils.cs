@@ -76,9 +76,10 @@ namespace GeneticProgramming
         public static string RandomJoyKeywordOrInt(float numberRate = 0.3f)
         {
             string[] joyKeywords = {
-                "+", "-", "*", "/", "pow", "neg", "dup", "swap",
-                "[", "]", "map", "concat", "rollup",
-                "rolldown", "rollupd"
+                "+", "-", "*", "/", "pow", "neg", "dup", "swap", "sqrt",
+                "[", "]", "map", "concat", "rollup", "rotate", "rem",
+                "rolldown", "rollupd", "abs", "ceil", "floor", "max", "min",
+                
             };
             string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             Random random = new Random();
