@@ -28,7 +28,7 @@ namespace GeneticProgramming
             return results;
         }
 
-        public static string FormatProgram(string program, Dictionary<List<int>, int> testCases)
+        public static string FormatProgram(IGenome genome, Dictionary<List<int>, int> testCases)
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var testCase in testCases)
@@ -38,7 +38,12 @@ namespace GeneticProgramming
                 {
                     stringBuilder.Append($"{input} ");
                 }
-                stringBuilder.Append($"{program}.\n");
+                for (int i = 0; i < genome.Program.Count; i ++){
+                    stringBuilder.Append($"{genome.Program[i]} ");
+                    if (i % 40 == 0 && i != 0)
+                        stringBuilder.Append("dup .\n");
+                }
+                stringBuilder.Append(".\n");
             }
             return stringBuilder.ToString();
         }
@@ -77,7 +82,7 @@ namespace GeneticProgramming
         {
             string[] joyKeywords = {
                 "+", "-", "*", "/", "pow", "neg", "dup", "swap", "sqrt",
-                "[", "]", "map", "concat", "rollup", "rotate", "rem",
+                "map", "concat", "rollup", "rotate", "rem",
                 "rolldown", "rollupd", "abs", "ceil", "floor", "max", "min",
                 
             };
@@ -114,7 +119,7 @@ namespace GeneticProgramming
             StringBuilder bigProgram = new StringBuilder(population.Count);
             foreach (IGenome genome in population)
             {
-                bigProgram.Append(FormatProgram(genome.ProgramToString(), testCases));
+                bigProgram.Append(FormatProgram(genome, testCases));
             }
             return bigProgram.ToString();
         }

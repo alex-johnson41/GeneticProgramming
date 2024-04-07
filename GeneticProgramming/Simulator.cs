@@ -46,6 +46,8 @@ namespace GeneticProgramming
 
         private void ScorePopulation()
         {
+            // Population needs to be sorted to be split into chunks by length
+            Population = Population.OrderBy(genome => genome.Program.Count).ToList();
             List<float> scores = Fitness.CalculatePopulationScores(Population, MaxProgramLength);
             for (int i = 0; i < Population.Count; i++)
             {
