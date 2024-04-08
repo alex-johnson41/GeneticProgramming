@@ -13,18 +13,9 @@ public class JoyFitness : IFitness
 
     public List<float> CalculatePopulationScores(List<IGenome> population, int maxProgramLength)
         {
-            List<float> scores = new List<float>();
-            int maxGenomeSize = TestCases.Count * maxProgramLength;
-            int chunkSize = 50000 / maxGenomeSize; // TODO: Find a better formula for chunk size
-            for (int i = 0; i < population.Count; i += chunkSize)
-            {
-                List<IGenome> chunk = population.Skip(i).Take(chunkSize).ToList();
-                string output = JoyUtils.RunJoy(JoyUtils.FormatPopulation(chunk, TestCases));
-                List<string> filteredOutput = FilterOutput(output);
-                List<float> chunkScores = CalculateScores(filteredOutput);
-                scores.AddRange(chunkScores);
-            }
-            return scores;
+            string output = JoyUtils.RunJoy(JoyUtils.FormatPopulation(population, TestCases));
+            List<string> filteredOutput = FilterOutput(output);
+            return CalculateScores(filteredOutput);
         }
 
     private List<float> CalculateScores(List<string> filteredOutput)

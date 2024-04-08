@@ -15,7 +15,7 @@ namespace GeneticProgramming
             ProcessStartInfo start = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
-                Arguments = "-c \"" + GetProjectDirectory() + "/joy/joy_original " + joyFilePath + "\"",
+                Arguments = "-c \"" + GetProjectDirectory() + "/joy/joy_long_inp " + joyFilePath + "\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
             };
