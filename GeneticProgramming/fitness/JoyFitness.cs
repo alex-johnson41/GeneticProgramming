@@ -3,9 +3,9 @@ namespace GeneticProgramming;
 public class JoyFitness : IFitness
 {
     public float PassingScore { get; set; }
-    public Dictionary<List<int>, int> TestCases = new Dictionary<List<int>, int>();
+    public Dictionary<List<int>, float> TestCases = new Dictionary<List<int>, float>();
 
-    public JoyFitness(Dictionary<List<int>, int> testCases, float passingScore = 0f)
+    public JoyFitness(Dictionary<List<int>, float> testCases, float passingScore = 0f)
     {
         PassingScore = passingScore;
         TestCases = testCases;
@@ -15,7 +15,8 @@ public class JoyFitness : IFitness
         {
             string output = JoyUtils.RunJoy(JoyUtils.FormatPopulation(population, TestCases));
             List<string> filteredOutput = FilterOutput(output);
-            return CalculateScores(filteredOutput);
+            List<float> scores = CalculateScores(filteredOutput);
+            return scores;
         }
 
     private List<float> CalculateScores(List<string> filteredOutput)

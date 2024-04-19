@@ -28,7 +28,7 @@ namespace GeneticProgramming
             return results;
         }
 
-        public static string FormatProgram(string program, Dictionary<List<int>, int> testCases)
+        public static string FormatProgram(string program, Dictionary<List<int>, float> testCases)
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var testCase in testCases)
@@ -79,7 +79,10 @@ namespace GeneticProgramming
                 "+", "-", "*", "/", "pow", "neg", "dup", "swap", "sqrt",
                 "[", "]", "map", "concat", "rollup", "rotate", "rem",
                 "rolldown", "rollupd", "abs", "ceil", "floor", "max", "min",
-                
+                "stack", "popd", "choice", "or", "xor", "and", "not", "ifte",
+                "div", "sign", "max", "min", "first", "rest", "cons", "swons",
+                "at", "of", "size", "small", "null", ">=", "<=", "=", ">", "<",
+                "!=", "has", "in", "branch"
             };
             string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             Random random = new Random();
@@ -109,7 +112,7 @@ namespace GeneticProgramming
             return !(bracketCount == 0);
         }
 
-        public static string FormatPopulation(List<IGenome> population, Dictionary<List<int>, int> testCases)
+        public static string FormatPopulation(List<IGenome> population, Dictionary<List<int>, float> testCases)
         {
             StringBuilder bigProgram = new StringBuilder(population.Count);
             foreach (IGenome genome in population)

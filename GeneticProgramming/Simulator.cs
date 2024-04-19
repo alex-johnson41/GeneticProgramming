@@ -8,14 +8,16 @@ namespace GeneticProgramming
         private IFitness Fitness; //Fitness function used to score genomes
         private IMutator Mutator; //Mutator used to create new genomes
         private int GenerationCount = 0; //Number of generations run
+        private int ThreadID; //ID of the thread running the simulation
 
-        public Simulator(int populationSize, int maxProgramLength, IFitness fitness, IMutator mutator)
+        public Simulator(int populationSize, int maxProgramLength, IFitness fitness, IMutator mutator, int threadID)
         {
             PopulationSize = populationSize;
             MaxProgramLength = maxProgramLength;
             Population = new List<IGenome> {};
             Fitness = fitness;
             Mutator = mutator;
+            ThreadID = threadID;
         }
 
         public IGenome Run(int? stopGeneration){
@@ -33,6 +35,9 @@ namespace GeneticProgramming
                 {
                     return Population[0];
                 }
+                if (GenerationCount % 10 == 0){
+                    Logger.Log("Thread: " + ThreadID + " Generation: " + GenerationCount + " Best score: " + Population[0].Score + " Best program: " + Population[0].ProgramToString());
+                }
             }
         }
 
@@ -40,7 +45,6 @@ namespace GeneticProgramming
             ScorePopulation();
             SortPopulation();
             GenerationCount++;
-            Logger.Log("Generation: " + GenerationCount + "  " + "Best score: " + Population[0].Score + " Best program: " + Population[0].ProgramToString());
             Population = Mutator.MutatePopulation(Population, PopulationSize, MaxProgramLength);
         }
 
