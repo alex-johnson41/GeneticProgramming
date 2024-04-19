@@ -21,8 +21,10 @@ namespace GeneticProgramming
             };
             using (Process process = Process.Start(start))
             {
-                using StreamReader reader = process.StandardOutput;
-                results = reader.ReadToEnd();
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    results = reader.ReadToEnd();
+                }
             }
             File.Delete(joyFilePath);
             return results;
