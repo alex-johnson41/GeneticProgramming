@@ -81,10 +81,8 @@ namespace GeneticProgramming
                 "+", "-", "*", "/", "pow", "neg", "dup", "swap", "sqrt",
                 "[", "]", "map", "concat", "rollup", "rotate", "rem",
                 "rolldown", "rollupd", "abs", "ceil", "floor", "max", "min",
-                "stack", "popd", "choice", "or", "xor", "and", "not", "ifte",
+                "stack", "popd", 
                 "div", "sign", "max", "min", "first", "rest", "cons", "swons",
-                "at", "of", "size", "small", "null", ">=", "<=", "=", ">", "<",
-                "!=", "has", "in", "branch"
             };
             string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             Random random = new Random();
