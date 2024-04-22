@@ -3,10 +3,19 @@ namespace GeneticProgramming
     public class JoyMutator : IMutator
     {
         private Random Random;
+        private float CrossoverRate; // Percentage of population that will be created by crossover
+        private float MutationRate; // Proportion of population that will be created by mutation of a single gene
+        private float DeletionRate; // Proportion of population that will be created by deletion of a single gene
+        private float SurvivalRate; // Proportion of population that will survive to the next generation
 
-        public JoyMutator(Random random)
+        public JoyMutator(float survivalRate, float crossoverRate, float mutationRate, float deletionRate)
         {
-            Random = random;
+            Random = new Random();
+            CrossoverRate = crossoverRate;
+            MutationRate = mutationRate;
+            DeletionRate = deletionRate;
+            SurvivalRate = survivalRate;
+
         }
 
         public List<IGenome> CreateInitialPopulation(int PopulationSize, int MaxProgramLength)
@@ -21,14 +30,14 @@ namespace GeneticProgramming
 
         public List<IGenome> MutatePopulation(List<IGenome> population, int populationSize, int maxProgramLength)
         {
-            List<IGenome> newPopulation = population.GetRange(0, population.Count / 10); // Only mutate the top 10% of the population
+            List<IGenome> newPopulation = population.GetRange(0, (int)(population.Count * SurvivalRate)); 
             while (newPopulation.Count < populationSize)
             {
                 IGenome newGenome;
                 double rand = Random.NextDouble();
-                if (rand < 0.5) // TODO: Make this a parameter that gets passed in (crossoverRate)
+                if (rand < CrossoverRate) 
                     newGenome = CrossoverGenome(population[Random.Next(population.Count)], population[Random.Next(population.Count)]);
-                else if (rand < 0.9) // TODO: Make this a parameter that gets passed in (crossoverRate + mutationRate)
+                else if (rand < (CrossoverRate + MutationRate)) 
                     newGenome = MutateGenome(population[Random.Next(population.Count)]);
                 else 
                     newGenome = DeleteGenome(population[Random.Next(population.Count)]);
