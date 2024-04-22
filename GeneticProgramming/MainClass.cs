@@ -1,4 +1,4 @@
-﻿namespace GeneticProgramming
+namespace GeneticProgramming
 {
     class MainClass
     {
@@ -12,22 +12,21 @@
 
             for (int i = 0; i < numSimulators; i++)
             {
-            Simulator sim = new Simulator(populationSize,
-                              maxProgramLength,
-                              new JoyFitness(fuelCostTestCases),
-                              new JoyMutator(new Random()),
-                              i
-                              );
-
-            Thread thread = new Thread(() => sim.Run(null));
-            threads.Add(thread);
-            thread.Start();
+                Simulator sim = new Simulator(populationSize,
+                                maxProgramLength,
+                                new JoyFitness(fuelCostTestCases),
+                                new JoyMutator(new Random()),
+                                i
+                                );
+                Thread thread = new Thread(() => sim.Run(null));
+                threads.Add(thread);
+                thread.Start();
             }
 
             // Wait for all threads to finish
             foreach (Thread thread in threads)
             {
-            thread.Join();
+                thread.Join();
             }
         }
 
