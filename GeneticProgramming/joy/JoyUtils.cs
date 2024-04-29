@@ -81,7 +81,7 @@ namespace GeneticProgramming
                 "+", "-", "*", "/", "pow", "neg", "dup", "swap", "sqrt",
                 "[", "]", "map", "concat", "rollup", "rotate", "rem",
                 "rolldown", "rollupd", "abs", "ceil", "floor", "max", "min",
-                "stack", "popd", 
+                "stack", "popd", "dip",
                 "div", "sign", "max", "min", "first", "rest", "cons", "swons",
             };
             string[] zeroToNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
