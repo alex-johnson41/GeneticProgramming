@@ -21,7 +21,7 @@ See the ProfileData folder for data from runs throughout development. Load json 
 ## General Program Flow
 The user creates a list of test cases for the desired program that it wants generated. This includes example inputs and their expected output to be compared and scored against the generated programs. 
 
-The simulator creates a population of randomly generated genomes (joy programs) is created. Each of those genomes are then scored using the test cases that the user provided. From there, a new set of genomes is created from the highest scoring genomes through mutation, crossover, and deletion. Scoring takes place again and the process repeats until a genome receives the maximum possible score from the fitness function (0), indicating that it correctly performs the computations that the user desires. 
+The simulator creates a population of randomly generated genomes (joy programs). Each of those genomes are then scored using the test cases that the user provided. From there, a new set of genomes is created from the highest scoring genomes through mutation, crossover, and deletion. Scoring takes place again and the process repeats until a genome receives the maximum possible score from the fitness function (0), indicating that it correctly performs the computations that the user desires. 
 
 ## Classes
 
